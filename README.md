@@ -8,25 +8,25 @@
 >
 > For licensing information, visit https://velobpa.com/licensing or contact licensing@velobpa.com.
 
-A comprehensive n8n community node for interacting with the Secret Network blockchain. This node provides 6 resources with full support for smart contracts, privacy-preserving tokens, IBC operations, and transaction management on the Secret Network ecosystem.
+This n8n community node provides comprehensive integration with Secret Network, enabling automation workflows to interact with the privacy-focused blockchain platform. The node implements 7 core resources including blocks, transactions, accounts, staking, smart contracts, governance, and IBC operations, allowing users to build sophisticated privacy-preserving blockchain automation workflows.
 
 ![n8n Community Node](https://img.shields.io/badge/n8n-Community%20Node-blue)
 ![License](https://img.shields.io/badge/license-BSL--1.1-blue)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue)
 ![Secret Network](https://img.shields.io/badge/Secret%20Network-Compatible-purple)
-![Cosmos SDK](https://img.shields.io/badge/Cosmos%20SDK-0.47-green)
-![Privacy First](https://img.shields.io/badge/Privacy-First-black)
+![Privacy](https://img.shields.io/badge/Privacy-Focused-green)
+![Smart Contracts](https://img.shields.io/badge/Smart%20Contracts-Supported-orange)
 
 ## Features
 
-- **Smart Contract Operations** - Deploy, execute, and query privacy-preserving smart contracts on Secret Network
-- **SNIP-20 Token Management** - Full support for Secret Network's privacy token standard with viewing keys and permits
-- **SNIP-721 NFT Operations** - Create, mint, transfer, and manage privacy-preserving NFTs with metadata protection
-- **IBC Cross-Chain Operations** - Execute Inter-Blockchain Communication transfers and queries across Cosmos chains
-- **Transaction Management** - Send, query, and monitor SCRT transactions with detailed gas estimation
-- **Account Operations** - Retrieve account balances, transaction history, and delegation information
-- **Privacy-First Design** - Built-in support for viewing keys, query permits, and encrypted data handling
-- **Mainnet & Testnet Support** - Compatible with Secret Network mainnet, testnet, and local development networks
+- **Block Operations** - Query blockchain blocks, retrieve block information, and monitor block production
+- **Transaction Management** - Send transactions, query transaction history, and track transaction status
+- **Account Operations** - Manage accounts, check balances, and retrieve account information
+- **Staking Functions** - Delegate tokens, claim rewards, and manage validator operations
+- **Smart Contract Integration** - Deploy contracts, execute functions, and query contract state
+- **Governance Participation** - Submit proposals, vote on governance, and track proposal status
+- **IBC Protocol Support** - Cross-chain transfers, channel management, and inter-blockchain communication
+- **Privacy-Preserving Queries** - Leverage Secret Network's privacy features in automation workflows
 
 ## Installation
 
@@ -61,143 +61,127 @@ n8n start
 
 | Field | Description | Required |
 |-------|-------------|----------|
-| **API Key** | Secret Network API key for authenticated requests | Yes |
-| **RPC Endpoint** | Custom RPC endpoint URL (defaults to mainnet) | No |
-| **Chain ID** | Network chain ID (secret-4 for mainnet, pulsar-3 for testnet) | No |
-| **Mnemonic** | Wallet mnemonic for transaction signing | No |
+| API Key | Secret Network API key for authenticated requests | Yes |
+| Network | Network environment (mainnet, testnet, or custom) | Yes |
+| RPC Endpoint | Custom RPC endpoint URL (if using custom network) | No |
 
 ## Resources & Operations
 
-### 1. Smart Contracts
+### 1. Blocks
 
 | Operation | Description |
 |-----------|-------------|
-| **Deploy** | Deploy a new smart contract to Secret Network |
-| **Execute** | Execute a function on an existing smart contract |
-| **Query** | Query smart contract state or data |
-| **Get Contract Info** | Retrieve contract metadata and code information |
-| **Get Contract History** | Fetch contract execution history |
-| **Instantiate** | Instantiate a smart contract from uploaded code |
+| Get Block | Retrieve block information by height or hash |
+| Get Latest Block | Fetch the most recent block |
+| List Blocks | Query multiple blocks with pagination |
+| Get Block Transactions | Retrieve all transactions in a specific block |
 
-### 2. SNIP-20 Tokens
+### 2. Transactions
 
 | Operation | Description |
 |-----------|-------------|
-| **Transfer** | Transfer SNIP-20 tokens between addresses |
-| **Get Balance** | Query token balance with viewing key |
-| **Create Viewing Key** | Generate viewing key for private balance queries |
-| **Set Viewing Key** | Set a custom viewing key for token operations |
-| **Get Allowance** | Check spending allowance between addresses |
-| **Increase Allowance** | Increase spending allowance for an address |
-| **Get Token Info** | Retrieve token metadata and configuration |
+| Send Transaction | Broadcast a new transaction to the network |
+| Get Transaction | Retrieve transaction details by hash |
+| List Transactions | Query transactions with filters and pagination |
+| Get Transaction Receipt | Fetch transaction execution receipt |
+| Estimate Gas | Calculate gas requirements for a transaction |
 
-### 3. SNIP-721 Tokens
+### 3. Accounts
 
 | Operation | Description |
 |-----------|-------------|
-| **Mint** | Mint new SNIP-721 NFTs with privacy features |
-| **Transfer** | Transfer NFTs between addresses |
-| **Get Owner** | Query NFT owner with proper viewing permissions |
-| **Get NFT Info** | Retrieve NFT metadata and properties |
-| **Approve** | Approve address to transfer specific NFT |
-| **Set Approval All** | Set approval for all NFTs in collection |
-| **Get Collection Info** | Fetch NFT collection details and statistics |
+| Get Account | Retrieve account information and balance |
+| Get Balance | Check account balance for specific tokens |
+| List Account Transactions | Get transaction history for an account |
+| Create Account | Generate a new Secret Network account |
 
-### 4. IBC Operations
+### 4. Staking
 
 | Operation | Description |
 |-----------|-------------|
-| **Transfer** | Execute IBC token transfers to other Cosmos chains |
-| **Get Channels** | List available IBC channels and connections |
-| **Query Transfer** | Track status of IBC transfer transactions |
-| **Get Connection Info** | Retrieve IBC connection details |
-| **List Denoms** | Get IBC denomination trace information |
-| **Get Client State** | Query IBC client state and parameters |
+| Delegate | Delegate tokens to a validator |
+| Undelegate | Undelegate tokens from a validator |
+| Redelegate | Move delegation between validators |
+| Claim Rewards | Claim staking rewards |
+| Get Delegations | Retrieve account delegation information |
+| List Validators | Query available validators |
 
-### 5. Transactions
-
-| Operation | Description |
-|-----------|-------------|
-| **Send** | Send SCRT tokens to another address |
-| **Get Transaction** | Retrieve transaction details by hash |
-| **Get Transactions** | Query multiple transactions with filters |
-| **Simulate** | Simulate transaction execution and estimate gas |
-| **Broadcast** | Broadcast signed transaction to network |
-| **Get Gas Price** | Retrieve current network gas prices |
-
-### 6. Accounts
+### 5. SmartContracts
 
 | Operation | Description |
 |-----------|-------------|
-| **Get Balance** | Retrieve SCRT balance for an address |
-| **Get Account Info** | Fetch account details and sequence number |
-| **Get Delegations** | Query staking delegations for an address |
-| **Get Rewards** | Get pending staking rewards |
-| **Get Transaction History** | Retrieve complete transaction history |
-| **Get Unbonding** | Query unbonding delegations status |
+| Deploy Contract | Deploy a new smart contract |
+| Execute Contract | Execute a smart contract function |
+| Query Contract | Query contract state or information |
+| Get Contract Info | Retrieve contract metadata |
+| List Contracts | Query deployed contracts |
+
+### 6. Governance
+
+| Operation | Description |
+|-----------|-------------|
+| Submit Proposal | Submit a new governance proposal |
+| Vote | Vote on an active proposal |
+| Get Proposal | Retrieve proposal details |
+| List Proposals | Query governance proposals |
+| Get Vote | Check vote status for a proposal |
+
+### 7. IBC
+
+| Operation | Description |
+|-----------|-------------|
+| Transfer | Execute cross-chain token transfer |
+| Get Channel | Retrieve IBC channel information |
+| List Channels | Query available IBC channels |
+| Get Connection | Fetch IBC connection details |
+| Track Packet | Monitor IBC packet status |
 
 ## Usage Examples
 
 ```javascript
-// Deploy a new SNIP-20 token contract
+// Get latest block information
+{
+  "resource": "blocks",
+  "operation": "getLatestBlock",
+  "credentials": "secretNetworkApi"
+}
+```
+
+```javascript
+// Check account balance
+{
+  "resource": "accounts",
+  "operation": "getBalance",
+  "credentials": "secretNetworkApi",
+  "address": "secret1abc123...",
+  "denom": "uscrt"
+}
+```
+
+```javascript
+// Execute smart contract function
 {
   "resource": "smartContracts",
-  "operation": "deploy",
-  "codeId": 1,
-  "initMsg": {
-    "name": "My Secret Token",
-    "symbol": "MST",
-    "decimals": 6,
-    "initial_balances": [
-      {
-        "address": "secret1abc123...",
-        "amount": "1000000000"
-      }
-    ]
-  },
-  "label": "MySecretToken",
-  "funds": []
-}
-```
-
-```javascript
-// Transfer SNIP-20 tokens with privacy
-{
-  "resource": "snip20Tokens",
-  "operation": "transfer",
-  "contractAddress": "secret1contract...",
-  "recipient": "secret1recipient...",
-  "amount": "100000",
-  "memo": "Payment for services",
-  "padding": "encrypted_padding_data"
-}
-```
-
-```javascript
-// Execute IBC transfer to Osmosis
-{
-  "resource": "ibcOperations",
-  "operation": "transfer",
-  "sourceChannel": "channel-1",
-  "token": {
-    "denom": "uscrt",
-    "amount": "1000000"
-  },
-  "sender": "secret1sender...",
-  "receiver": "osmo1receiver...",
-  "timeoutHeight": {
-    "revisionNumber": 1,
-    "revisionHeight": 12345678
+  "operation": "executeContract",
+  "credentials": "secretNetworkApi",
+  "contractAddress": "secret1contract123...",
+  "executeMsg": {
+    "transfer": {
+      "recipient": "secret1recipient...",
+      "amount": "1000000"
+    }
   }
 }
 ```
 
 ```javascript
-// Query account balance and delegations
+// Delegate tokens to validator
 {
-  "resource": "accounts",
-  "operation": "getBalance",
-  "address": "secret1address...",
+  "resource": "staking",
+  "operation": "delegate",
+  "credentials": "secretNetworkApi",
+  "validatorAddress": "secretvaloper1validator...",
+  "amount": "1000000",
   "denom": "uscrt"
 }
 ```
@@ -206,12 +190,12 @@ n8n start
 
 | Error | Description | Solution |
 |-------|-------------|----------|
-| **Invalid API Key** | Authentication failed with provided credentials | Verify API key is correct and has sufficient permissions |
-| **Insufficient Gas** | Transaction failed due to low gas limit | Increase gas limit or use simulate operation first |
-| **Contract Not Found** | Smart contract address does not exist | Verify contract address and network selection |
-| **Invalid Viewing Key** | SNIP-20/721 query failed with viewing key error | Create new viewing key or verify existing key is correct |
-| **IBC Channel Closed** | IBC transfer failed due to closed channel | Check channel status and use alternative channel |
-| **Sequence Mismatch** | Transaction rejected due to account sequence error | Query latest account info and retry transaction |
+| Invalid API Key | Authentication failed with provided credentials | Verify API key is correct and has proper permissions |
+| Insufficient Gas | Transaction failed due to insufficient gas | Increase gas limit or estimate gas before transaction |
+| Contract Not Found | Smart contract address does not exist | Verify contract address and deployment status |
+| Invalid Address | Provided address format is incorrect | Use valid Secret Network address format (secret1...) |
+| Network Timeout | Request timed out waiting for response | Check network connectivity and try again |
+| Insufficient Funds | Account balance too low for transaction | Ensure account has sufficient token balance |
 
 ## Development
 
@@ -256,5 +240,5 @@ Contributions are welcome! Please ensure:
 ## Support
 
 - **Issues**: [GitHub Issues](https://github.com/Velocity-BPA/n8n-nodes-secret-network/issues)
-- **Secret Network Documentation**: [docs.scrt.network](https://docs.scrt.network)
-- **Secret Network Community**: [forum.scrt.network](https://forum.scrt.network)
+- **Secret Network Documentation**: [Secret Network Docs](https://docs.scrt.network/)
+- **Secret Network Community**: [Secret Network Discord](https://discord.com/invite/secret-network)

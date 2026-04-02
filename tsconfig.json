@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2019",
+    "lib": ["es2019"],
     "module": "commonjs",
     "outDir": "./dist",
     "rootDir": "./",
@@ -10,14 +11,16 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "declaration": true,
+    "declarationMap": true,
+    "incremental": true,
     "sourceMap": true
   },
   "include": [
-    "nodes/**/*",
-    "credentials/**/*"
+    "credentials/**/*",
+    "nodes/**/*"
   ],
   "exclude": [
-    "node_modules",
-    "dist"
+    "node_modules/**/*",
+    "dist/**/*"
   ]
 }

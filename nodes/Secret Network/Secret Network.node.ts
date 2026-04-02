@@ -54,8 +54,32 @@ export class SecretNetwork implements INodeType {
         noDataExpression: true,
         options: [
           {
+            name: 'Blocks',
+            value: 'blocks',
+          },
+          {
+            name: 'Transactions',
+            value: 'transactions',
+          },
+          {
+            name: 'Accounts',
+            value: 'accounts',
+          },
+          {
+            name: 'Staking',
+            value: 'staking',
+          },
+          {
             name: 'SmartContracts',
             value: 'smartContracts',
+          },
+          {
+            name: 'Governance',
+            value: 'governance',
+          },
+          {
+            name: 'IBC',
+            value: 'iBC',
           },
           {
             name: 'Snip20Tokens',
@@ -68,17 +92,9 @@ export class SecretNetwork implements INodeType {
           {
             name: 'IbcOperations',
             value: 'ibcOperations',
-          },
-          {
-            name: 'Transactions',
-            value: 'transactions',
-          },
-          {
-            name: 'Accounts',
-            value: 'accounts',
           }
         ],
-        default: 'smartContracts',
+        default: 'blocks',
       },
       // Operation dropdowns per resource
 {
@@ -86,12 +102,131 @@ export class SecretNetwork implements INodeType {
   name: 'operation',
   type: 'options',
   noDataExpression: true,
-  displayOptions: {
-    show: {
-      resource: ['smartContracts'],
-    },
-  },
+  displayOptions: { show: { resource: ['blocks'] } },
   options: [
+    { name: 'Get Latest Block', value: 'getLatestBlock', description: 'Get the latest block', action: 'Get latest block' },
+    { name: 'Get Block', value: 'getBlock', description: 'Get block by height', action: 'Get block by height' },
+    { name: 'Get Node Info', value: 'getNodeInfo', description: 'Get node information', action: 'Get node information' },
+    { name: 'Get Latest Validator Set', value: 'getLatestValidatorSet', description: 'Get latest validator set', action: 'Get latest validator set' },
+    { name: 'Get Validator Set', value: 'getValidatorSet', description: 'Get validator set by height', action: 'Get validator set by height' }
+  ],
+  default: 'getLatestBlock',
+},
+{
+	displayName: 'Operation',
+	name: 'operation',
+	type: 'options',
+	noDataExpression: true,
+	displayOptions: { show: { resource: ['transactions'] } },
+	options: [
+		{ name: 'Get Transaction', value: 'getTransaction', description: 'Get transaction by hash', action: 'Get transaction by hash' },
+		{ name: 'Get Transactions', value: 'getTransactions', description: 'Search transactions', action: 'Search transactions' },
+		{ name: 'Broadcast Transaction', value: 'broadcastTransaction', description: 'Broadcast transaction', action: 'Broadcast transaction' },
+		{ name: 'Simulate Transaction', value: 'simulateTransaction', description: 'Simulate transaction execution', action: 'Simulate transaction execution' },
+		{ name: 'Get Transactions By Height', value: 'getTransactionsByHeight', description: 'Get transactions by block height', action: 'Get transactions by block height' },
+	],
+	default: 'getTransaction',
+},
+{
+  displayName: 'Operation',
+  name: 'operation',
+  type: 'options',
+  noDataExpression: true,
+  displayOptions: { show: { resource: ['accounts'] } },
+  options: [
+    { name: 'Get Account', value: 'getAccount', description: 'Get account information', action: 'Get account information' },
+    { name: 'Get Balances', value: 'getBalances', description: 'Get account balances', action: 'Get account balances' },
+    { name: 'Get Balance by Denom', value: 'getBalanceByDenom', description: 'Get balance for specific denomination', action: 'Get balance for specific denomination' },
+    { name: 'Get Total Supply', value: 'getTotalSupply', description: 'Get total supply of all tokens', action: 'Get total supply of all tokens' },
+    { name: 'Get Supply by Denom', value: 'getSupplyByDenom', description: 'Get supply for specific denomination', action: 'Get supply for specific denomination' },
+    { name: 'Get Account Balance', value: 'getBalance', description: 'Get account balance for all denominations', action: 'Get account balance' },
+    { name: 'Get Delegation Rewards', value: 'getDelegationRewards', description: 'Get delegation rewards for a delegator address', action: 'Get delegation rewards' },
+    { name: 'Get Delegations', value: 'getDelegations', description: 'Get all delegations for a delegator address', action: 'Get delegations' },
+    { name: 'Get Unbonding Delegations', value: 'getUnbondingDelegations', description: 'Get unbonding delegations for a delegator address', action: 'Get unbonding delegations' },
+  ],
+  default: 'getAccount',
+},
+{
+	displayName: 'Operation',
+	name: 'operation',
+	type: 'options',
+	noDataExpression: true,
+	displayOptions: {
+		show: {
+			resource: ['staking'],
+		},
+	},
+	options: [
+		{
+			name: 'Get Validators',
+			value: 'getValidators',
+			description: 'Get all validators in the network',
+			action: 'Get validators',
+		},
+		{
+			name: 'Get Validator',
+			value: 'getValidator',
+			description: 'Get details of a specific validator',
+			action: 'Get validator details',
+		},
+		{
+			name: 'Get Delegations',
+			value: 'getDelegations',
+			description: 'Get delegations for a specific delegator',
+			action: 'Get delegator delegations',
+		},
+		{
+			name: 'Get Validator Delegations',
+			value: 'getValidatorDelegations',
+			description: 'Get all delegations to a specific validator',
+			action: 'Get validator delegations',
+		},
+		{
+			name: 'Get Unbonding Delegations',
+			value: 'getUnbondingDelegations',
+			description: 'Get unbonding delegations for a delegator',
+			action: 'Get unbonding delegations',
+		},
+	],
+	default: 'getValidators',
+},
+{
+  displayName: 'Operation',
+  name: 'operation',
+  type: 'options',
+  noDataExpression: true,
+  displayOptions: { show: { resource: ['smartContracts'] } },
+  options: [
+    {
+      name: 'Get Contracts',
+      value: 'getContracts',
+      description: 'Get all uploaded contract codes',
+      action: 'Get all uploaded contract codes'
+    },
+    {
+      name: 'Get Contract Code',
+      value: 'getContractCode',
+      description: 'Get contract code by ID',
+      action: 'Get contract code by ID'
+    },
+    {
+      name: 'Get Contract Info',
+      value: 'getContractInfo',
+      description: 'Get contract information',
+      action: 'Get contract information'
+    },
+    {
+      name: 'Query Contract',
+      value: 'queryContract',
+      description: 'Query contract state',
+      action: 'Query contract state'
+    },
+    {
+      name: 'Get Contracts By Code',
+      value: 'getContractsByCode',
+      description: 'Get contracts by code ID',
+      action: 'Get contracts by code ID'
+    },
     {
       name: 'Execute Contract',
       value: 'executeContract',
@@ -103,12 +238,6 @@ export class SecretNetwork implements INodeType {
       value: 'getContract',
       description: 'Get contract information',
       action: 'Get contract',
-    },
-    {
-      name: 'Query Contract',
-      value: 'queryContract',
-      description: 'Query smart contract state',
-      action: 'Query contract',
     },
     {
       name: 'Instantiate Contract',
@@ -133,15 +262,64 @@ export class SecretNetwork implements INodeType {
       value: 'getCode',
       description: 'Get contract code info',
       action: 'Get code',
+    }
+  ],
+  default: 'getContracts',
+},
+{
+  displayName: 'Operation',
+  name: 'operation',
+  type: 'options',
+  noDataExpression: true,
+  displayOptions: { show: { resource: ['governance'] } },
+  options: [
+    { name: 'Get Proposals', value: 'getProposals', description: 'Get all governance proposals', action: 'Get all governance proposals' },
+    { name: 'Get Proposal', value: 'getProposal', description: 'Get proposal by ID', action: 'Get proposal by ID' },
+    { name: 'Get Proposal Votes', value: 'getProposalVotes', description: 'Get votes for proposal', action: 'Get votes for proposal' },
+    { name: 'Get Vote', value: 'getVote', description: 'Get specific vote', action: 'Get specific vote' },
+    { name: 'Get Proposal Deposits', value: 'getProposalDeposits', description: 'Get deposits for proposal', action: 'Get deposits for proposal' },
+  ],
+  default: 'getProposals',
+},
+{
+  displayName: 'Operation',
+  name: 'operation',
+  type: 'options',
+  noDataExpression: true,
+  displayOptions: { show: { resource: ['iBC'] } },
+  options: [
+    {
+      name: 'Get Client States',
+      value: 'getClientStates',
+      description: 'Get all IBC client states',
+      action: 'Get client states',
     },
     {
-      name: 'Get Contracts By Code',
-      value: 'getContractsByCode',
-      description: 'Get contracts by code ID',
-      action: 'Get contracts by code',
+      name: 'Get Client State',
+      value: 'getClientState',
+      description: 'Get client state by ID',
+      action: 'Get client state',
+    },
+    {
+      name: 'Get Connections',
+      value: 'getConnections',
+      description: 'Get all IBC connections',
+      action: 'Get connections',
+    },
+    {
+      name: 'Get Connection',
+      value: 'getConnection',
+      description: 'Get connection by ID',
+      action: 'Get connection',
+    },
+    {
+      name: 'Get Channels',
+      value: 'getChannels',
+      description: 'Get all IBC channels',
+      action: 'Get channels',
     },
   ],
-  default: 'executeContract',
+  default: 'getClientStates',
 },
 {
   displayName: 'Operation',
@@ -329,107 +507,351 @@ export class SecretNetwork implements INodeType {
   ],
   default: 'ibcTransfer',
 },
+      // Parameter definitions
 {
-  displayName: 'Operation',
-  name: 'operation',
-  type: 'options',
-  noDataExpression: true,
-  displayOptions: {
-    show: {
-      resource: ['transactions'],
-    },
-  },
-  options: [
-    {
-      name: 'Broadcast Transaction',
-      value: 'broadcastTransaction',
-      description: 'Broadcast a signed transaction to the network',
-      action: 'Broadcast a transaction',
-    },
-    {
-      name: 'Get Transaction',
-      value: 'getTransaction',
-      description: 'Get transaction details by hash',
-      action: 'Get a transaction by hash',
-    },
-    {
-      name: 'Get Transactions',
-      value: 'getTransactions',
-      description: 'Query transactions by criteria',
-      action: 'Get transactions by criteria',
-    },
-    {
-      name: 'Simulate Transaction',
-      value: 'simulateTransaction',
-      description: 'Simulate transaction execution without broadcasting',
-      action: 'Simulate a transaction',
-    },
-    {
-      name: 'Get Block',
-      value: 'getBlock',
-      description: 'Get block details by height',
-      action: 'Get a block by height',
-    },
-    {
-      name: 'Get Latest Block',
-      value: 'getLatestBlock',
-      description: 'Get the latest block',
-      action: 'Get the latest block',
-    },
-  ],
-  default: 'broadcastTransaction',
+  displayName: 'Height',
+  name: 'height',
+  type: 'number',
+  required: true,
+  default: 1,
+  description: 'Block height to retrieve',
+  displayOptions: { show: { resource: ['blocks'], operation: ['getBlock'] } },
 },
 {
-  displayName: 'Operation',
-  name: 'operation',
-  type: 'options',
-  noDataExpression: true,
+  displayName: 'Height',
+  name: 'height',
+  type: 'number',
+  required: true,
+  default: 1,
+  description: 'Height for which to retrieve the validator set',
+  displayOptions: { show: { resource: ['blocks'], operation: ['getValidatorSet'] } },
+},
+{
+	displayName: 'Hash',
+	name: 'hash',
+	type: 'string',
+	required: true,
+	displayOptions: {
+		show: {
+			resource: ['transactions'],
+			operation: ['getTransaction']
+		}
+	},
+	default: '',
+	description: 'Transaction hash to retrieve'
+},
+{
+	displayName: 'Events',
+	name: 'events',
+	type: 'string',
+	displayOptions: {
+		show: {
+			resource: ['transactions'],
+			operation: ['getTransactions']
+		}
+	},
+	default: '',
+	description: 'Event query filters for searching transactions'
+},
+{
+	displayName: 'Page Key',
+	name: 'pageKey',
+	type: 'string',
+	displayOptions: {
+		show: {
+			resource: ['transactions'],
+			operation: ['getTransactions']
+		}
+	},
+	default: '',
+	description: 'Pagination key for next page'
+},
+{
+	displayName: 'Limit',
+	name: 'limit',
+	type: 'number',
+	displayOptions: {
+		show: {
+			resource: ['transactions'],
+			operation: ['getTransactions']
+		}
+	},
+	default: 100,
+	description: 'Maximum number of transactions to return'
+},
+{
+	displayName: 'Transaction Bytes',
+	name: 'txBytes',
+	type: 'string',
+	required: true,
+	displayOptions: {
+		show: {
+			resource: ['transactions'],
+			operation: ['broadcastTransaction', 'simulateTransaction']
+		}
+	},
+	default: '',
+	description: 'Base64 encoded transaction bytes'
+},
+{
+	displayName: 'Broadcast Mode',
+	name: 'mode',
+	type: 'options',
+	options: [
+		{ name: 'Sync', value: 'BROADCAST_MODE_SYNC' },
+		{ name: 'Async', value: 'BROADCAST_MODE_ASYNC' },
+		{ name: 'Block', value: 'BROADCAST_MODE_BLOCK' }
+	],
+	displayOptions: {
+		show: {
+			resource: ['transactions'],
+			operation: ['broadcastTransaction']
+		}
+	},
+	default: 'BROADCAST_MODE_SYNC',
+	description: 'Broadcast mode for transaction'
+},
+{
+	displayName: 'Block Height',
+	name: 'height',
+	type: 'number',
+	required: true,
+	displayOptions: {
+		show: {
+			resource: ['transactions'],
+			operation: ['getTransactionsByHeight']
+		}
+	},
+	default: 0,
+	description: 'Block height to get transactions from'
+},
+{
+  displayName: 'Address',
+  name: 'address',
+  type: 'string',
+  required: true,
   displayOptions: {
     show: {
       resource: ['accounts'],
+      operation: ['getAccount', 'getBalances', 'getBalanceByDenom', 'getBalance'],
     },
   },
-  options: [
-    {
-      name: 'Get Account Information',
-      value: 'getAccount',
-      description: 'Get account information from the blockchain',
-      action: 'Get account information',
-    },
-    {
-      name: 'Get Account Balance',
-      value: 'getBalance',
-      description: 'Get account balance for all denominations',
-      action: 'Get account balance',
-    },
-    {
-      name: 'Get Balance by Denomination',
-      value: 'getBalanceByDenom',
-      description: 'Get specific denomination balance for an account',
-      action: 'Get balance by denomination',
-    },
-    {
-      name: 'Get Delegation Rewards',
-      value: 'getDelegationRewards',
-      description: 'Get delegation rewards for a delegator address',
-      action: 'Get delegation rewards',
-    },
-    {
-      name: 'Get Delegations',
-      value: 'getDelegations',
-      description: 'Get all delegations for a delegator address',
-      action: 'Get delegations',
-    },
-    {
-      name: 'Get Unbonding Delegations',
-      value: 'getUnbondingDelegations',
-      description: 'Get unbonding delegations for a delegator address',
-      action: 'Get unbonding delegations',
-    },
-  ],
-  default: 'getAccount',
+  default: '',
+  description: 'The Secret Network address to query',
 },
-      // Parameter definitions
+{
+  displayName: 'Denomination',
+  name: 'denom',
+  type: 'string',
+  required: false,
+  displayOptions: {
+    show: {
+      resource: ['accounts'],
+      operation: ['getBalances', 'getBalance'],
+    },
+  },
+  default: '',
+  description: 'Filter balances by denomination (optional)',
+},
+{
+  displayName: 'Denomination',
+  name: 'denom',
+  type: 'string',
+  required: true,
+  displayOptions: {
+    show: {
+      resource: ['accounts'],
+      operation: ['getBalanceByDenom', 'getSupplyByDenom'],
+    },
+  },
+  default: 'uscrt',
+  description: 'The denomination to query (e.g., uscrt)',
+},
+{
+  displayName: 'Pagination Key',
+  name: 'paginationKey',
+  type: 'string',
+  required: false,
+  displayOptions: {
+    show: {
+      resource: ['accounts'],
+      operation: ['getTotalSupply'],
+    },
+  },
+  default: '',
+  description: 'Pagination key for retrieving next page of results',
+},
+{
+  displayName: 'Page Limit',
+  name: 'pageLimit',
+  type: 'number',
+  required: false,
+  displayOptions: {
+    show: {
+      resource: ['accounts'],
+      operation: ['getTotalSupply'],
+    },
+  },
+  default: 100,
+  description: 'Maximum number of results to return per page',
+},
+{
+  displayName: 'Delegator Address',
+  name: 'delegatorAddress',
+  type: 'string',
+  required: true,
+  displayOptions: {
+    show: {
+      resource: ['accounts'],
+      operation: ['getDelegationRewards'],
+    },
+  },
+  default: '',
+  description: 'The delegator address to get rewards for',
+  placeholder: 'secret1...',
+},
+{
+  displayName: 'Delegator Address',
+  name: 'delegatorAddr',
+  type: 'string',
+  required: true,
+  displayOptions: {
+    show: {
+      resource: ['accounts'],
+      operation: ['getDelegations', 'getUnbondingDelegations'],
+    },
+  },
+  default: '',
+  description: 'The delegator address to get delegations for',
+  placeholder: 'secret1...',
+},
+{
+	displayName: 'Status',
+	name: 'status',
+	type: 'options',
+	displayOptions: {
+		show: {
+			resource: ['staking'],
+			operation: ['getValidators'],
+		},
+	},
+	options: [
+		{
+			name: 'All',
+			value: '',
+		},
+		{
+			name: 'Bonded',
+			value: 'BOND_STATUS_BONDED',
+		},
+		{
+			name: 'Unbonded',
+			value: 'BOND_STATUS_UNBONDED',
+		},
+		{
+			name: 'Unbonding',
+			value: 'BOND_STATUS_UNBONDING',
+		},
+	],
+	default: '',
+	description: 'Filter validators by status',
+},
+{
+	displayName: 'Pagination Limit',
+	name: 'paginationLimit',
+	type: 'number',
+	displayOptions: {
+		show: {
+			resource: ['staking'],
+			operation: ['getValidators'],
+		},
+	},
+	default: 100,
+	description: 'Maximum number of validators to return',
+},
+{
+	displayName: 'Pagination Key',
+	name: 'paginationKey',
+	type: 'string',
+	displayOptions: {
+		show: {
+			resource: ['staking'],
+			operation: ['getValidators'],
+		},
+	},
+	default: '',
+	description: 'Pagination key for next page',
+},
+{
+	displayName: 'Validator Address',
+	name: 'validatorAddr',
+	type: 'string',
+	required: true,
+	displayOptions: {
+		show: {
+			resource: ['staking'],
+			operation: ['getValidator', 'getValidatorDelegations'],
+		},
+	},
+	default: '',
+	description: 'The validator address to query',
+	placeholder: 'secretvaloper1...',
+},
+{
+	displayName: 'Delegator Address',
+	name: 'delegatorAddr',
+	type: 'string',
+	required: true,
+	displayOptions: {
+		show: {
+			resource: ['staking'],
+			operation: ['getDelegations', 'getUnbondingDelegations'],
+		},
+	},
+	default: '',
+	description: 'The delegator address to query',
+	placeholder: 'secret1...',
+},
+{
+  displayName: 'Pagination Offset',
+  name: 'offset',
+  type: 'number',
+  displayOptions: {
+    show: {
+      resource: ['smartContracts'],
+      operation: ['getContracts']
+    }
+  },
+  default: 0,
+  description: 'Number of items to skip'
+},
+{
+  displayName: 'Pagination Limit',
+  name: 'limit',
+  type: 'number',
+  displayOptions: {
+    show: {
+      resource: ['smartContracts'],
+      operation: ['getContracts']
+    }
+  },
+  default: 100,
+  description: 'Maximum number of items to return'
+},
+{
+  displayName: 'Code ID',
+  name: 'codeId',
+  type: 'string',
+  required: true,
+  displayOptions: {
+    show: {
+      resource: ['smartContracts'],
+      operation: ['getContractCode', 'getContractsByCode', 'instantiateContract', 'getCode']
+    }
+  },
+  default: '',
+  description: 'The contract code ID'
+},
 {
   displayName: 'Contract Address',
   name: 'contractAddress',
@@ -438,11 +860,38 @@ export class SecretNetwork implements INodeType {
   displayOptions: {
     show: {
       resource: ['smartContracts'],
-      operation: ['executeContract'],
-    },
+      operation: ['getContractInfo', 'queryContract', 'executeContract', 'getContract']
+    }
   },
   default: '',
-  description: 'The contract address to execute',
+  description: 'The contract address'
+},
+{
+  displayName: 'Query',
+  name: 'query',
+  type: 'json',
+  required: true,
+  displayOptions: {
+    show: {
+      resource: ['smartContracts'],
+      operation: ['queryContract']
+    }
+  },
+  default: '{}',
+  description: 'Query to execute against the contract'
+},
+{
+  displayName: 'Viewing Key',
+  name: 'viewingKey',
+  type: 'string',
+  displayOptions: {
+    show: {
+      resource: ['smartContracts'],
+      operation: ['queryContract']
+    }
+  },
+  default: '',
+  description: 'Viewing key for encrypted data access'
 },
 {
   displayName: 'Message',
@@ -466,7 +915,7 @@ export class SecretNetwork implements INodeType {
   displayOptions: {
     show: {
       resource: ['smartContracts'],
-      operation: ['executeContract'],
+      operation: ['executeContract', 'storeCode'],
     },
   },
   default: '',
@@ -479,67 +928,11 @@ export class SecretNetwork implements INodeType {
   displayOptions: {
     show: {
       resource: ['smartContracts'],
-      operation: ['executeContract'],
+      operation: ['executeContract', 'instantiateContract'],
     },
   },
   default: '[]',
   description: 'Funds to send with the transaction',
-},
-{
-  displayName: 'Contract Address',
-  name: 'contractAddress',
-  type: 'string',
-  required: true,
-  displayOptions: {
-    show: {
-      resource: ['smartContracts'],
-      operation: ['getContract'],
-    },
-  },
-  default: '',
-  description: 'The contract address to query',
-},
-{
-  displayName: 'Contract Address',
-  name: 'contractAddress',
-  type: 'string',
-  required: true,
-  displayOptions: {
-    show: {
-      resource: ['smartContracts'],
-      operation: ['queryContract'],
-    },
-  },
-  default: '',
-  description: 'The contract address to query',
-},
-{
-  displayName: 'Query',
-  name: 'query',
-  type: 'json',
-  required: true,
-  displayOptions: {
-    show: {
-      resource: ['smartContracts'],
-      operation: ['queryContract'],
-    },
-  },
-  default: '{}',
-  description: 'The query message',
-},
-{
-  displayName: 'Code ID',
-  name: 'codeId',
-  type: 'string',
-  required: true,
-  displayOptions: {
-    show: {
-      resource: ['smartContracts'],
-      operation: ['instantiateContract'],
-    },
-  },
-  default: '',
-  description: 'The code ID to instantiate',
 },
 {
   displayName: 'Init Message',
@@ -568,19 +961,6 @@ export class SecretNetwork implements INodeType {
   },
   default: '',
   description: 'The contract label',
-},
-{
-  displayName: 'Funds',
-  name: 'funds',
-  type: 'json',
-  displayOptions: {
-    show: {
-      resource: ['smartContracts'],
-      operation: ['instantiateContract'],
-    },
-  },
-  default: '[]',
-  description: 'Funds to send with the transaction',
 },
 {
   displayName: 'Pagination Limit',
@@ -623,46 +1003,143 @@ export class SecretNetwork implements INodeType {
   description: 'The WASM byte code to store',
 },
 {
-  displayName: 'Sender',
-  name: 'sender',
-  type: 'string',
-  required: true,
+  displayName: 'Proposal Status',
+  name: 'proposalStatus',
+  type: 'options',
   displayOptions: {
     show: {
-      resource: ['smartContracts'],
-      operation: ['storeCode'],
+      resource: ['governance'],
+      operation: ['getProposals'],
     },
   },
-  default: '',
-  description: 'The sender address',
+  options: [
+    { name: 'Unspecified', value: 'PROPOSAL_STATUS_UNSPECIFIED' },
+    { name: 'Deposit Period', value: 'PROPOSAL_STATUS_DEPOSIT_PERIOD' },
+    { name: 'Voting Period', value: 'PROPOSAL_STATUS_VOTING_PERIOD' },
+    { name: 'Passed', value: 'PROPOSAL_STATUS_PASSED' },
+    { name: 'Rejected', value: 'PROPOSAL_STATUS_REJECTED' },
+    { name: 'Failed', value: 'PROPOSAL_STATUS_FAILED' },
+  ],
+  default: 'PROPOSAL_STATUS_UNSPECIFIED',
+  description: 'Filter proposals by status',
 },
 {
-  displayName: 'Code ID',
-  name: 'codeId',
+  displayName: 'Voter Address',
+  name: 'voter',
   type: 'string',
-  required: true,
   displayOptions: {
     show: {
-      resource: ['smartContracts'],
-      operation: ['getCode'],
+      resource: ['governance'],
+      operation: ['getProposals'],
     },
   },
   default: '',
-  description: 'The code ID to query',
+  description: 'Filter proposals by voter address',
 },
 {
-  displayName: 'Code ID',
-  name: 'codeId',
+  displayName: 'Depositor Address',
+  name: 'depositor',
+  type: 'string',
+  displayOptions: {
+    show: {
+      resource: ['governance'],
+      operation: ['getProposals'],
+    },
+  },
+  default: '',
+  description: 'Filter proposals by depositor address',
+},
+{
+  displayName: 'Proposal ID',
+  name: 'proposalId',
   type: 'string',
   required: true,
   displayOptions: {
     show: {
-      resource: ['smartContracts'],
-      operation: ['getContractsByCode'],
+      resource: ['governance'],
+      operation: ['getProposal', 'getProposalVotes', 'getProposalDeposits', 'getVote'],
     },
   },
   default: '',
-  description: 'The code ID to query contracts for',
+  description: 'The ID of the proposal',
+},
+{
+  displayName: 'Voter Address',
+  name: 'voterAddress',
+  type: 'string',
+  required: true,
+  displayOptions: {
+    show: {
+      resource: ['governance'],
+      operation: ['getVote'],
+    },
+  },
+  default: '',
+  description: 'The address of the voter',
+},
+{
+  displayName: 'Client ID',
+  name: 'clientId',
+  type: 'string',
+  required: true,
+  displayOptions: {
+    show: {
+      resource: ['iBC'],
+      operation: ['getClientState'],
+    },
+  },
+  default: '',
+  description: 'The client ID to retrieve state for',
+},
+{
+  displayName: 'Connection ID',
+  name: 'connectionId',
+  type: 'string',
+  required: true,
+  displayOptions: {
+    show: {
+      resource: ['iBC'],
+      operation: ['getConnection'],
+    },
+  },
+  default: '',
+  description: 'The connection ID to retrieve',
+},
+{
+  displayName: 'Pagination',
+  name: 'pagination',
+  type: 'collection',
+  placeholder: 'Add Pagination',
+  displayOptions: {
+    show: {
+      resource: ['iBC'],
+      operation: ['getClientStates', 'getConnections', 'getChannels'],
+    },
+  },
+  default: {},
+  options: [
+    {
+      displayName: 'Limit',
+      name: 'limit',
+      type: 'number',
+      default: 100,
+      description: 'Maximum number of items to return',
+    },
+    {
+      displayName: 'Offset',
+      name: 'offset',
+      type: 'number',
+      default: 0,
+      description: 'Number of items to skip',
+    },
+    {
+      displayName: 'Count Total',
+      name: 'countTotal',
+      type: 'boolean',
+      default: false,
+      description: 'Whether to count total number of items',
+    },
+  ],
 },
 {
   displayName: 'Contract Address',
@@ -1198,283 +1675,6 @@ export class SecretNetwork implements INodeType {
   default: '{}',
   description: 'The client header for updating',
 },
-{
-  displayName: 'Transaction Bytes',
-  name: 'txBytes',
-  type: 'string',
-  required: true,
-  displayOptions: {
-    show: {
-      resource: ['transactions'],
-      operation: ['broadcastTransaction'],
-    },
-  },
-  default: '',
-  description: 'Base64-encoded transaction bytes',
-},
-{
-  displayName: 'Broadcast Mode',
-  name: 'mode',
-  type: 'options',
-  displayOptions: {
-    show: {
-      resource: ['transactions'],
-      operation: ['broadcastTransaction'],
-    },
-  },
-  options: [
-    {
-      name: 'Sync',
-      value: 'BROADCAST_MODE_SYNC',
-    },
-    {
-      name: 'Async',
-      value: 'BROADCAST_MODE_ASYNC',
-    },
-    {
-      name: 'Block',
-      value: 'BROADCAST_MODE_BLOCK',
-    },
-  ],
-  default: 'BROADCAST_MODE_SYNC',
-  description: 'Transaction broadcast mode',
-},
-{
-  displayName: 'Transaction Hash',
-  name: 'hash',
-  type: 'string',
-  required: true,
-  displayOptions: {
-    show: {
-      resource: ['transactions'],
-      operation: ['getTransaction'],
-    },
-  },
-  default: '',
-  description: 'Transaction hash to query',
-},
-{
-  displayName: 'Events',
-  name: 'events',
-  type: 'string',
-  displayOptions: {
-    show: {
-      resource: ['transactions'],
-      operation: ['getTransactions'],
-    },
-  },
-  default: '',
-  description: 'Events to filter transactions by (e.g., message.action=\'/cosmos.bank.v1beta1.MsgSend\')',
-},
-{
-  displayName: 'Order By',
-  name: 'orderBy',
-  type: 'options',
-  displayOptions: {
-    show: {
-      resource: ['transactions'],
-      operation: ['getTransactions'],
-    },
-  },
-  options: [
-    {
-      name: 'Ascending',
-      value: 'ORDER_BY_ASC',
-    },
-    {
-      name: 'Descending',
-      value: 'ORDER_BY_DESC',
-    },
-  ],
-  default: 'ORDER_BY_DESC',
-  description: 'Order of results',
-},
-{
-  displayName: 'Page Size',
-  name: 'pageSize',
-  type: 'number',
-  displayOptions: {
-    show: {
-      resource: ['transactions'],
-      operation: ['getTransactions'],
-    },
-  },
-  default: 10,
-  description: 'Number of results per page',
-},
-{
-  displayName: 'Page Key',
-  name: 'pageKey',
-  type: 'string',
-  displayOptions: {
-    show: {
-      resource: ['transactions'],
-      operation: ['getTransactions'],
-    },
-  },
-  default: '',
-  description: 'Pagination key for next page',
-},
-{
-  displayName: 'Transaction Data',
-  name: 'txData',
-  type: 'json',
-  displayOptions: {
-    show: {
-      resource: ['transactions'],
-      operation: ['simulateTransaction'],
-    },
-  },
-  default: '{}',
-  description: 'Transaction data to simulate',
-},
-{
-  displayName: 'Transaction Bytes',
-  name: 'txBytes',
-  type: 'string',
-  displayOptions: {
-    show: {
-      resource: ['transactions'],
-      operation: ['simulateTransaction'],
-    },
-  },
-  default: '',
-  description: 'Base64-encoded transaction bytes (alternative to txData)',
-},
-{
-  displayName: 'Block Height',
-  name: 'height',
-  type: 'string',
-  required: true,
-  displayOptions: {
-    show: {
-      resource: ['transactions'],
-      operation: ['getBlock'],
-    },
-  },
-  default: '',
-  description: 'Block height to query',
-},
-{
-  displayName: 'Address',
-  name: 'address',
-  type: 'string',
-  required: true,
-  displayOptions: {
-    show: {
-      resource: ['accounts'],
-      operation: ['getAccount'],
-    },
-  },
-  default: '',
-  description: 'The Secret Network account address',
-  placeholder: 'secret1...',
-},
-{
-  displayName: 'Address',
-  name: 'address',
-  type: 'string',
-  required: true,
-  displayOptions: {
-    show: {
-      resource: ['accounts'],
-      operation: ['getBalance'],
-    },
-  },
-  default: '',
-  description: 'The Secret Network account address to get balance for',
-  placeholder: 'secret1...',
-},
-{
-  displayName: 'Denomination Filter',
-  name: 'denom',
-  type: 'string',
-  required: false,
-  displayOptions: {
-    show: {
-      resource: ['accounts'],
-      operation: ['getBalance'],
-    },
-  },
-  default: '',
-  description: 'Optional denomination filter (e.g., uscrt)',
-  placeholder: 'uscrt',
-},
-{
-  displayName: 'Address',
-  name: 'address',
-  type: 'string',
-  required: true,
-  displayOptions: {
-    show: {
-      resource: ['accounts'],
-      operation: ['getBalanceByDenom'],
-    },
-  },
-  default: '',
-  description: 'The Secret Network account address to get balance for',
-  placeholder: 'secret1...',
-},
-{
-  displayName: 'Denomination',
-  name: 'denom',
-  type: 'string',
-  required: true,
-  displayOptions: {
-    show: {
-      resource: ['accounts'],
-      operation: ['getBalanceByDenom'],
-    },
-  },
-  default: 'uscrt',
-  description: 'The specific denomination to get balance for',
-  placeholder: 'uscrt',
-},
-{
-  displayName: 'Delegator Address',
-  name: 'delegatorAddress',
-  type: 'string',
-  required: true,
-  displayOptions: {
-    show: {
-      resource: ['accounts'],
-      operation: ['getDelegationRewards'],
-    },
-  },
-  default: '',
-  description: 'The delegator address to get rewards for',
-  placeholder: 'secret1...',
-},
-{
-  displayName: 'Delegator Address',
-  name: 'delegatorAddr',
-  type: 'string',
-  required: true,
-  displayOptions: {
-    show: {
-      resource: ['accounts'],
-      operation: ['getDelegations'],
-    },
-  },
-  default: '',
-  description: 'The delegator address to get delegations for',
-  placeholder: 'secret1...',
-},
-{
-  displayName: 'Delegator Address',
-  name: 'delegatorAddr',
-  type: 'string',
-  required: true,
-  displayOptions: {
-    show: {
-      resource: ['accounts'],
-      operation: ['getUnbondingDelegations'],
-    },
-  },
-  default: '',
-  description: 'The delegator address to get unbonding delegations for',
-  placeholder: 'secret1...',
-},
     ],
   };
 
@@ -1483,18 +1683,26 @@ export class SecretNetwork implements INodeType {
     const resource = this.getNodeParameter('resource', 0) as string;
 
     switch (resource) {
+      case 'blocks':
+        return [await executeBlocksOperations.call(this, items)];
+      case 'transactions':
+        return [await executeTransactionsOperations.call(this, items)];
+      case 'accounts':
+        return [await executeAccountsOperations.call(this, items)];
+      case 'staking':
+        return [await executeStakingOperations.call(this, items)];
       case 'smartContracts':
         return [await executeSmartContractsOperations.call(this, items)];
+      case 'governance':
+        return [await executeGovernanceOperations.call(this, items)];
+      case 'iBC':
+        return [await executeIBCOperations.call(this, items)];
       case 'snip20Tokens':
         return [await executeSnip20TokensOperations.call(this, items)];
       case 'snip721Tokens':
         return [await executeSnip721TokensOperations.call(this, items)];
       case 'ibcOperations':
         return [await executeIbcOperationsOperations.call(this, items)];
-      case 'transactions':
-        return [await executeTransactionsOperations.call(this, items)];
-      case 'accounts':
-        return [await executeAccountsOperations.call(this, items)];
       default:
         throw new NodeOperationError(this.getNode(), `The resource "${resource}" is not supported`);
     }
@@ -1505,7 +1713,7 @@ export class SecretNetwork implements INodeType {
 // Resource Handler Functions
 // ============================================================
 
-async function executeSmartContractsOperations(
+async function executeBlocksOperations(
   this: IExecuteFunctions,
   items: INodeExecutionData[],
 ): Promise<INodeExecutionData[]> {
@@ -1516,238 +1724,70 @@ async function executeSmartContractsOperations(
   for (let i = 0; i < items.length; i++) {
     try {
       let result: any;
-      
+
+      const baseOptions: any = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        json: true,
+      };
+
+      if (credentials.username && credentials.password) {
+        baseOptions.auth = {
+          user: credentials.username,
+          pass: credentials.password,
+        };
+      }
+
       switch (operation) {
-        case 'executeContract': {
-          const contractAddress = this.getNodeParameter('contractAddress', i) as string;
-          const msg = this.getNodeParameter('msg', i) as any;
-          const sender = this.getNodeParameter('sender', i) as string;
-          const funds = this.getNodeParameter('funds', i) as any;
-
-          const payload = {
-            tx: {
-              body: {
-                messages: [{
-                  '@type': '/secret.compute.v1beta1.MsgExecuteContract',
-                  sender,
-                  contract: contractAddress,
-                  msg: typeof msg === 'string' ? msg : JSON.stringify(msg),
-                  sent_funds: Array.isArray(funds) ? funds : [],
-                }],
-                memo: '',
-                timeout_height: '0',
-                extension_options: [],
-                non_critical_extension_options: [],
-              },
-              auth_info: {
-                signer_infos: [],
-                fee: {
-                  amount: [{ denom: 'uscrt', amount: '25000' }],
-                  gas_limit: '200000',
-                  payer: '',
-                  granter: '',
-                },
-              },
-              signatures: [],
-            },
-            mode: 'BROADCAST_MODE_BLOCK',
-          };
-
+        case 'getLatestBlock': {
           const options: any = {
-            method: 'POST',
-            url: `${credentials.baseUrl}/cosmos/tx/v1beta1/txs`,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            json: payload,
-          };
-          
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
-
-        case 'getContract': {
-          const contractAddress = this.getNodeParameter('contractAddress', i) as string;
-          
-          const options: any = {
+            ...baseOptions,
             method: 'GET',
-            url: `${credentials.baseUrl}/compute/v1beta1/contracts/${contractAddress}`,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            json: true,
+            url: `${credentials.baseUrl || 'https://lcd.secret.express'}/cosmos/base/tendermint/v1beta1/blocks/latest`,
           };
-          
           result = await this.helpers.httpRequest(options) as any;
           break;
         }
 
-        case 'queryContract': {
-          const contractAddress = this.getNodeParameter('contractAddress', i) as string;
-          const query = this.getNodeParameter('query', i) as any;
-
-          const payload = {
-            query: typeof query === 'string' ? query : JSON.stringify(query),
-          };
-
+        case 'getBlock': {
+          const height = this.getNodeParameter('height', i) as number;
           const options: any = {
-            method: 'POST',
-            url: `${credentials.baseUrl}/compute/v1beta1/contracts/${contractAddress}/query`,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            json: payload,
-          };
-          
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
-
-        case 'instantiateContract': {
-          const codeId = this.getNodeParameter('codeId', i) as string;
-          const initMsg = this.getNodeParameter('initMsg', i) as any;
-          const label = this.getNodeParameter('label', i) as string;
-          const funds = this.getNodeParameter('funds', i) as any;
-
-          const payload = {
-            tx: {
-              body: {
-                messages: [{
-                  '@type': '/secret.compute.v1beta1.MsgInstantiateContract',
-                  sender: credentials.address || '',
-                  code_id: codeId,
-                  label,
-                  init_msg: typeof initMsg === 'string' ? initMsg : JSON.stringify(initMsg),
-                  init_funds: Array.isArray(funds) ? funds : [],
-                }],
-                memo: '',
-                timeout_height: '0',
-                extension_options: [],
-                non_critical_extension_options: [],
-              },
-              auth_info: {
-                signer_infos: [],
-                fee: {
-                  amount: [{ denom: 'uscrt', amount: '25000' }],
-                  gas_limit: '200000',
-                  payer: '',
-                  granter: '',
-                },
-              },
-              signatures: [],
-            },
-            mode: 'BROADCAST_MODE_BLOCK',
-          };
-
-          const options: any = {
-            method: 'POST',
-            url: `${credentials.baseUrl}/cosmos/tx/v1beta1/txs`,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            json: payload,
-          };
-          
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
-
-        case 'listCodes': {
-          const paginationLimit = this.getNodeParameter('paginationLimit', i, 100) as number;
-          const paginationKey = this.getNodeParameter('paginationKey', i, '') as string;
-
-          let url = `${credentials.baseUrl}/compute/v1beta1/codes?pagination.limit=${paginationLimit}`;
-          if (paginationKey) {
-            url += `&pagination.key=${encodeURIComponent(paginationKey)}`;
-          }
-
-          const options: any = {
+            ...baseOptions,
             method: 'GET',
-            url,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            json: true,
+            url: `${credentials.baseUrl || 'https://lcd.secret.express'}/cosmos/base/tendermint/v1beta1/blocks/${height}`,
           };
-          
           result = await this.helpers.httpRequest(options) as any;
           break;
         }
 
-        case 'storeCode': {
-          const wasmByteCode = this.getNodeParameter('wasmByteCode', i) as string;
-          const sender = this.getNodeParameter('sender', i) as string;
-
-          const payload = {
-            tx: {
-              body: {
-                messages: [{
-                  '@type': '/secret.compute.v1beta1.MsgStoreCode',
-                  sender,
-                  wasm_byte_code: wasmByteCode,
-                  source: '',
-                  builder: '',
-                }],
-                memo: '',
-                timeout_height: '0',
-                extension_options: [],
-                non_critical_extension_options: [],
-              },
-              auth_info: {
-                signer_infos: [],
-                fee: {
-                  amount: [{ denom: 'uscrt', amount: '50000' }],
-                  gas_limit: '500000',
-                  payer: '',
-                  granter: '',
-                },
-              },
-              signatures: [],
-            },
-            mode: 'BROADCAST_MODE_BLOCK',
-          };
-
+        case 'getNodeInfo': {
           const options: any = {
-            method: 'POST',
-            url: `${credentials.baseUrl}/cosmos/tx/v1beta1/txs`,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            json: payload,
-          };
-          
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
-
-        case 'getCode': {
-          const codeId = this.getNodeParameter('codeId', i) as string;
-          
-          const options: any = {
+            ...baseOptions,
             method: 'GET',
-            url: `${credentials.baseUrl}/compute/v1beta1/codes/${codeId}`,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            json: true,
+            url: `${credentials.baseUrl || 'https://lcd.secret.express'}/cosmos/base/tendermint/v1beta1/node_info`,
           };
-          
           result = await this.helpers.httpRequest(options) as any;
           break;
         }
 
-        case 'getContractsByCode': {
-          const codeId = this.getNodeParameter('codeId', i) as string;
-          
+        case 'getLatestValidatorSet': {
           const options: any = {
+            ...baseOptions,
             method: 'GET',
-            url: `${credentials.baseUrl}/compute/v1beta1/contracts/by-code/${codeId}`,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            json: true,
+            url: `${credentials.baseUrl || 'https://lcd.secret.express'}/cosmos/base/tendermint/v1beta1/validatorsets/latest`,
           };
-          
+          result = await this.helpers.httpRequest(options) as any;
+          break;
+        }
+
+        case 'getValidatorSet': {
+          const height = this.getNodeParameter('height', i) as number;
+          const options: any = {
+            ...baseOptions,
+            method: 'GET',
+            url: `${credentials.baseUrl || 'https://lcd.secret.express'}/cosmos/base/tendermint/v1beta1/validatorsets/${height}`,
+          };
           result = await this.helpers.httpRequest(options) as any;
           break;
         }
@@ -1757,1007 +1797,7 @@ async function executeSmartContractsOperations(
       }
 
       returnData.push({ json: result, pairedItem: { item: i } });
-    } catch (error: any) {
-      if (this.continueOnFail()) {
-        returnData.push({ json: { error: error.message }, pairedItem: { item: i } });
-      } else {
-        throw new NodeApiError(this.getNode(), error);
-      }
-    }
-  }
 
-  return returnData;
-}
-
-function createTransactionMessage(contractAddress: string, msg: any, sender: string, funds: any[] = []): any {
-  return {
-    '@type': '/secret.compute.v1beta1.MsgExecuteContract',
-    sender,
-    contract: contractAddress,
-    msg: Buffer.from(JSON.stringify(msg)).toString('base64'),
-    sent_funds: funds,
-  };
-}
-
-function createQueryMessage(contractAddress: string, query: any): any {
-  return {
-    contract_address: contractAddress,
-    query: Buffer.from(JSON.stringify(query)).toString('base64'),
-  };
-}
-
-function estimateGas(messageType: string): any {
-  const gasEstimates: any = {
-    transfer: { gas: '200000' },
-    increaseAllowance: { gas: '150000' },
-    decreaseAllowance: { gas: '150000' },
-    createViewingKey: { gas: '100000' },
-    setViewingKey: { gas: '100000' },
-  };
-  return gasEstimates[messageType] || { gas: '200000' };
-}
-
-async function executeSnip20TokensOperations(
-  this: IExecuteFunctions,
-  items: INodeExecutionData[],
-): Promise<INodeExecutionData[]> {
-  const returnData: INodeExecutionData[] = [];
-  const operation = this.getNodeParameter('operation', 0) as string;
-  const credentials = await this.getCredentials('secretnetworkApi') as any;
-
-  for (let i = 0; i < items.length; i++) {
-    try {
-      let result: any;
-
-      switch (operation) {
-        case 'transfer': {
-          const contractAddress = this.getNodeParameter('contractAddress', i) as string;
-          const recipient = this.getNodeParameter('recipient', i) as string;
-          const amount = this.getNodeParameter('amount', i) as string;
-          const memo = this.getNodeParameter('memo', i) as string;
-
-          const msg = {
-            transfer: {
-              recipient,
-              amount,
-              memo: memo || undefined,
-            },
-          };
-
-          const txMsg = createTransactionMessage(contractAddress, msg, credentials.address);
-          const gasEstimate = estimateGas('transfer');
-
-          const txBody = {
-            messages: [txMsg],
-            memo: '',
-            timeout_height: '0',
-            extension_options: [],
-            non_critical_extension_options: [],
-          };
-
-          const authInfo = {
-            signer_infos: [],
-            fee: {
-              amount: [{ denom: 'uscrt', amount: '25000' }],
-              gas_limit: gasEstimate.gas,
-              payer: '',
-              granter: '',
-            },
-          };
-
-          const txRaw = {
-            body_bytes: Buffer.from(JSON.stringify(txBody)).toString('base64'),
-            auth_info_bytes: Buffer.from(JSON.stringify(authInfo)).toString('base64'),
-            signatures: [],
-          };
-
-          const options: any = {
-            method: 'POST',
-            url: `${credentials.baseUrl}/cosmos/tx/v1beta1/txs`,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: {
-              tx_bytes: Buffer.from(JSON.stringify(txRaw)).toString('base64'),
-              mode: 'BROADCAST_MODE_SYNC',
-            },
-            json: true,
-          };
-
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
-
-        case 'getBalance': {
-          const contractAddress = this.getNodeParameter('contractAddress', i) as string;
-          const address = this.getNodeParameter('address', i) as string;
-          const viewingKey = this.getNodeParameter('viewingKey', i) as string;
-
-          const query = {
-            balance: {
-              address,
-              key: viewingKey,
-            },
-          };
-
-          const queryMsg = createQueryMessage(contractAddress, query);
-
-          const options: any = {
-            method: 'POST',
-            url: `${credentials.baseUrl}/compute/v1beta1/contracts/${contractAddress}/query`,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: queryMsg,
-            json: true,
-          };
-
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
-
-        case 'increaseAllowance': {
-          const contractAddress = this.getNodeParameter('contractAddress', i) as string;
-          const spender = this.getNodeParameter('spender', i) as string;
-          const amount = this.getNodeParameter('amount', i) as string;
-
-          const msg = {
-            increase_allowance: {
-              spender,
-              amount,
-            },
-          };
-
-          const txMsg = createTransactionMessage(contractAddress, msg, credentials.address);
-          const gasEstimate = estimateGas('increaseAllowance');
-
-          const txBody = {
-            messages: [txMsg],
-            memo: '',
-            timeout_height: '0',
-            extension_options: [],
-            non_critical_extension_options: [],
-          };
-
-          const authInfo = {
-            signer_infos: [],
-            fee: {
-              amount: [{ denom: 'uscrt', amount: '25000' }],
-              gas_limit: gasEstimate.gas,
-              payer: '',
-              granter: '',
-            },
-          };
-
-          const txRaw = {
-            body_bytes: Buffer.from(JSON.stringify(txBody)).toString('base64'),
-            auth_info_bytes: Buffer.from(JSON.stringify(authInfo)).toString('base64'),
-            signatures: [],
-          };
-
-          const options: any = {
-            method: 'POST',
-            url: `${credentials.baseUrl}/cosmos/tx/v1beta1/txs`,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: {
-              tx_bytes: Buffer.from(JSON.stringify(txRaw)).toString('base64'),
-              mode: 'BROADCAST_MODE_SYNC',
-            },
-            json: true,
-          };
-
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
-
-        case 'decreaseAllowance': {
-          const contractAddress = this.getNodeParameter('contractAddress', i) as string;
-          const spender = this.getNodeParameter('spender', i) as string;
-          const amount = this.getNodeParameter('amount', i) as string;
-
-          const msg = {
-            decrease_allowance: {
-              spender,
-              amount,
-            },
-          };
-
-          const txMsg = createTransactionMessage(contractAddress, msg, credentials.address);
-          const gasEstimate = estimateGas('decreaseAllowance');
-
-          const txBody = {
-            messages: [txMsg],
-            memo: '',
-            timeout_height: '0',
-            extension_options: [],
-            non_critical_extension_options: [],
-          };
-
-          const authInfo = {
-            signer_infos: [],
-            fee: {
-              amount: [{ denom: 'uscrt', amount: '25000' }],
-              gas_limit: gasEstimate.gas,
-              payer: '',
-              granter: '',
-            },
-          };
-
-          const txRaw = {
-            body_bytes: Buffer.from(JSON.stringify(txBody)).toString('base64'),
-            auth_info_bytes: Buffer.from(JSON.stringify(authInfo)).toString('base64'),
-            signatures: [],
-          };
-
-          const options: any = {
-            method: 'POST',
-            url: `${credentials.baseUrl}/cosmos/tx/v1beta1/txs`,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: {
-              tx_bytes: Buffer.from(JSON.stringify(txRaw)).toString('base64'),
-              mode: 'BROADCAST_MODE_SYNC',
-            },
-            json: true,
-          };
-
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
-
-        case 'getAllowance': {
-          const contractAddress = this.getNodeParameter('contractAddress', i) as string;
-          const owner = this.getNodeParameter('owner', i) as string;
-          const spender = this.getNodeParameter('spender', i) as string;
-          const viewingKey = this.getNodeParameter('viewingKey', i) as string;
-
-          const query = {
-            allowance: {
-              owner,
-              spender,
-              key: viewingKey,
-            },
-          };
-
-          const queryMsg = createQueryMessage(contractAddress, query);
-
-          const options: any = {
-            method: 'POST',
-            url: `${credentials.baseUrl}/compute/v1beta1/contracts/${contractAddress}/query`,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: queryMsg,
-            json: true,
-          };
-
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
-
-        case 'getTokenInfo': {
-          const contractAddress = this.getNodeParameter('contractAddress', i) as string;
-
-          const query = {
-            token_info: {},
-          };
-
-          const queryMsg = createQueryMessage(contractAddress, query);
-
-          const options: any = {
-            method: 'POST',
-            url: `${credentials.baseUrl}/compute/v1beta1/contracts/${contractAddress}/query`,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: queryMsg,
-            json: true,
-          };
-
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
-
-        case 'createViewingKey': {
-          const contractAddress = this.getNodeParameter('contractAddress', i) as string;
-          const entropy = this.getNodeParameter('entropy', i) as string;
-
-          const msg = {
-            create_viewing_key: {
-              entropy: entropy || Math.random().toString(36).substring(2, 15),
-            },
-          };
-
-          const txMsg = createTransactionMessage(contractAddress, msg, credentials.address);
-          const gasEstimate = estimateGas('createViewingKey');
-
-          const txBody = {
-            messages: [txMsg],
-            memo: '',
-            timeout_height: '0',
-            extension_options: [],
-            non_critical_extension_options: [],
-          };
-
-          const authInfo = {
-            signer_infos: [],
-            fee: {
-              amount: [{ denom: 'uscrt', amount: '25000' }],
-              gas_limit: gasEstimate.gas,
-              payer: '',
-              granter: '',
-            },
-          };
-
-          const txRaw = {
-            body_bytes: Buffer.from(JSON.stringify(txBody)).toString('base64'),
-            auth_info_bytes: Buffer.from(JSON.stringify(authInfo)).toString('base64'),
-            signatures: [],
-          };
-
-          const options: any = {
-            method: 'POST',
-            url: `${credentials.baseUrl}/cosmos/tx/v1beta1/txs`,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: {
-              tx_bytes: Buffer.from(JSON.stringify(txRaw)).toString('base64'),
-              mode: 'BROADCAST_MODE_SYNC',
-            },
-            json: true,
-          };
-
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
-
-        case 'setViewingKey': {
-          const contractAddress = this.getNodeParameter('contractAddress', i) as string;
-          const key = this.getNodeParameter('key', i) as string;
-
-          const msg = {
-            set_viewing_key: {
-              key,
-            },
-          };
-
-          const txMsg = createTransactionMessage(contractAddress, msg, credentials.address);
-          const gasEstimate = estimateGas('setViewingKey');
-
-          const txBody = {
-            messages: [txMsg],
-            memo: '',
-            timeout_height: '0',
-            extension_options: [],
-            non_critical_extension_options: [],
-          };
-
-          const authInfo = {
-            signer_infos: [],
-            fee: {
-              amount: [{ denom: 'uscrt', amount: '25000' }],
-              gas_limit: gasEstimate.gas,
-              payer: '',
-              granter: '',
-            },
-          };
-
-          const txRaw = {
-            body_bytes: Buffer.from(JSON.stringify(txBody)).toString('base64'),
-            auth_info_bytes: Buffer.from(JSON.stringify(authInfo)).toString('base64'),
-            signatures: [],
-          };
-
-          const options: any = {
-            method: 'POST',
-            url: `${credentials.baseUrl}/cosmos/tx/v1beta1/txs`,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: {
-              tx_bytes: Buffer.from(JSON.stringify(txRaw)).toString('base64'),
-              mode: 'BROADCAST_MODE_SYNC',
-            },
-            json: true,
-          };
-
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
-
-        default:
-          throw new NodeOperationError(this.getNode(), `Unknown operation: ${operation}`);
-      }
-
-      returnData.push({
-        json: result,
-        pairedItem: { item: i },
-      });
-    } catch (error: any) {
-      if (this.continueOnFail()) {
-        returnData.push({
-          json: { error: error.message },
-          pairedItem: { item: i },
-        });
-      } else {
-        throw error;
-      }
-    }
-  }
-
-  return returnData;
-}
-
-async function executeSnip721TokensOperations(
-  this: IExecuteFunctions,
-  items: INodeExecutionData[],
-): Promise<INodeExecutionData[]> {
-  const returnData: INodeExecutionData[] = [];
-  const operation = this.getNodeParameter('operation', 0) as string;
-  const credentials = await this.getCredentials('secretnetworkApi') as any;
-
-  for (let i = 0; i < items.length; i++) {
-    try {
-      let result: any;
-      const contractAddress = this.getNodeParameter('contractAddress', i) as string;
-
-      switch (operation) {
-        case 'transferNft': {
-          const tokenId = this.getNodeParameter('tokenId', i) as string;
-          const recipient = this.getNodeParameter('recipient', i) as string;
-          const privateKey = this.getNodeParameter('privateKey', i) as string;
-          const gasLimit = this.getNodeParameter('gasLimit', i, 200000) as number;
-          const gasPrice = this.getNodeParameter('gasPrice', i, '0.25uscrt') as string;
-
-          const executeMsg = {
-            transfer_nft: {
-              recipient,
-              token_id: tokenId,
-            },
-          };
-
-          const txData = await signAndBroadcastTx(
-            this,
-            credentials,
-            contractAddress,
-            executeMsg,
-            privateKey,
-            gasLimit,
-            gasPrice,
-          );
-
-          result = txData;
-          break;
-        }
-
-        case 'mintNft': {
-          const tokenId = this.getNodeParameter('tokenId', i) as string;
-          const owner = this.getNodeParameter('owner', i) as string;
-          const metadata = this.getNodeParameter('metadata', i, {}) as any;
-          const privateKey = this.getNodeParameter('privateKey', i) as string;
-          const gasLimit = this.getNodeParameter('gasLimit', i, 200000) as number;
-          const gasPrice = this.getNodeParameter('gasPrice', i, '0.25uscrt') as string;
-
-          const executeMsg = {
-            mint_nft: {
-              token_id: tokenId,
-              owner,
-              metadata,
-            },
-          };
-
-          const txData = await signAndBroadcastTx(
-            this,
-            credentials,
-            contractAddress,
-            executeMsg,
-            privateKey,
-            gasLimit,
-            gasPrice,
-          );
-
-          result = txData;
-          break;
-        }
-
-        case 'getOwnerOf': {
-          const tokenId = this.getNodeParameter('tokenId', i) as string;
-          const viewingKey = this.getNodeParameter('viewingKey', i) as string;
-
-          const queryMsg = {
-            owner_of: {
-              token_id: tokenId,
-              viewing_key: viewingKey,
-            },
-          };
-
-          result = await queryContract(this, credentials, contractAddress, queryMsg);
-          break;
-        }
-
-        case 'getNftInfo': {
-          const tokenId = this.getNodeParameter('tokenId', i) as string;
-          const viewingKey = this.getNodeParameter('viewingKey', i) as string;
-
-          const queryMsg = {
-            nft_info: {
-              token_id: tokenId,
-              viewing_key: viewingKey,
-            },
-          };
-
-          result = await queryContract(this, credentials, contractAddress, queryMsg);
-          break;
-        }
-
-        case 'approve': {
-          const spender = this.getNodeParameter('spender', i) as string;
-          const tokenId = this.getNodeParameter('tokenId', i) as string;
-          const privateKey = this.getNodeParameter('privateKey', i) as string;
-          const gasLimit = this.getNodeParameter('gasLimit', i, 200000) as number;
-          const gasPrice = this.getNodeParameter('gasPrice', i, '0.25uscrt') as string;
-
-          const executeMsg = {
-            approve: {
-              spender,
-              token_id: tokenId,
-            },
-          };
-
-          const txData = await signAndBroadcastTx(
-            this,
-            credentials,
-            contractAddress,
-            executeMsg,
-            privateKey,
-            gasLimit,
-            gasPrice,
-          );
-
-          result = txData;
-          break;
-        }
-
-        case 'approveAll': {
-          const operator = this.getNodeParameter('operator', i) as string;
-          const approved = this.getNodeParameter('approved', i) as boolean;
-          const privateKey = this.getNodeParameter('privateKey', i) as string;
-          const gasLimit = this.getNodeParameter('gasLimit', i, 200000) as number;
-          const gasPrice = this.getNodeParameter('gasPrice', i, '0.25uscrt') as string;
-
-          const executeMsg = {
-            approve_all: {
-              operator,
-              approved,
-            },
-          };
-
-          const txData = await signAndBroadcastTx(
-            this,
-            credentials,
-            contractAddress,
-            executeMsg,
-            privateKey,
-            gasLimit,
-            gasPrice,
-          );
-
-          result = txData;
-          break;
-        }
-
-        case 'getApprovals': {
-          const tokenId = this.getNodeParameter('tokenId', i) as string;
-          const viewingKey = this.getNodeParameter('viewingKey', i) as string;
-
-          const queryMsg = {
-            approved_for_all: {
-              token_id: tokenId,
-              viewing_key: viewingKey,
-            },
-          };
-
-          result = await queryContract(this, credentials, contractAddress, queryMsg);
-          break;
-        }
-
-        case 'getTokens': {
-          const owner = this.getNodeParameter('owner', i) as string;
-          const viewingKey = this.getNodeParameter('viewingKey', i) as string;
-
-          const queryMsg = {
-            tokens: {
-              owner,
-              viewing_key: viewingKey,
-            },
-          };
-
-          result = await queryContract(this, credentials, contractAddress, queryMsg);
-          break;
-        }
-
-        default:
-          throw new NodeOperationError(this.getNode(), `Unknown operation: ${operation}`);
-      }
-
-      returnData.push({ json: result, pairedItem: { item: i } });
-    } catch (error: any) {
-      if (this.continueOnFail()) {
-        returnData.push({ json: { error: error.message }, pairedItem: { item: i } });
-      } else {
-        throw error;
-      }
-    }
-  }
-
-  return returnData;
-}
-
-async function queryContract(
-  executeFunctions: IExecuteFunctions,
-  credentials: any,
-  contractAddress: string,
-  queryMsg: any,
-): Promise<any> {
-  const options: any = {
-    method: 'POST',
-    url: `${credentials.baseUrl}/compute/v1beta1/contracts/${contractAddress}/query`,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: {
-      query: Buffer.from(JSON.stringify(queryMsg)).toString('base64'),
-    },
-    json: true,
-  };
-
-  const response = await executeFunctions.helpers.httpRequest(options) as any;
-  return response;
-}
-
-async function signAndBroadcastTx(
-  executeFunctions: IExecuteFunctions,
-  credentials: any,
-  contractAddress: string,
-  executeMsg: any,
-  privateKey: string,
-  gasLimit: number,
-  gasPrice: string,
-): Promise<any> {
-  // Get account info for sequence number
-  const privKeyBuffer = Buffer.from(privateKey, 'hex');
-  const pubKey = secp256k1.publicKeyCreate(privKeyBuffer);
-  const address = getAddressFromPubKey(pubKey);
-
-  const accountOptions: any = {
-    method: 'GET',
-    url: `${credentials.baseUrl}/cosmos/auth/v1beta1/accounts/${address}`,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    json: true,
-  };
-
-  const accountResponse = await executeFunctions.helpers.httpRequest(accountOptions) as any;
-  const sequence = accountResponse.account.sequence || '0';
-  const accountNumber = accountResponse.account.account_number || '0';
-
-  // Create transaction
-  const txBody = {
-    messages: [
-      {
-        '@type': '/secret.compute.v1beta1.MsgExecuteContract',
-        sender: address,
-        contract: contractAddress,
-        msg: Buffer.from(JSON.stringify(executeMsg)).toString('base64'),
-        sent_funds: [],
-      },
-    ],
-    memo: '',
-    timeout_height: '0',
-    extension_options: [],
-    non_critical_extension_options: [],
-  };
-
-  const authInfo = {
-    signer_infos: [
-      {
-        public_key: {
-          '@type': '/cosmos.crypto.secp256k1.PubKey',
-          key: Buffer.from(pubKey).toString('base64'),
-        },
-        mode_info: {
-          single: {
-            mode: 'SIGN_MODE_DIRECT',
-          },
-        },
-        sequence,
-      },
-    ],
-    fee: {
-      amount: [
-        {
-          denom: 'uscrt',
-          amount: Math.ceil(gasLimit * parseFloat(gasPrice.replace('uscrt', ''))).toString(),
-        },
-      ],
-      gas_limit: gasLimit.toString(),
-      payer: '',
-      granter: '',
-    },
-  };
-
-  const txRaw = {
-    body_bytes: Buffer.from(JSON.stringify(txBody)).toString('base64'),
-    auth_info_bytes: Buffer.from(JSON.stringify(authInfo)).toString('base64'),
-    signatures: [''],
-  };
-
-  // Sign transaction (simplified)
-  const signDoc = {
-    body_bytes: txRaw.body_bytes,
-    auth_info_bytes: txRaw.auth_info_bytes,
-    chain_id: credentials.chainId || 'secret-4',
-    account_number: accountNumber,
-  };
-
-  const signBytes = Buffer.from(JSON.stringify(signDoc));
-  const hash = createHash('sha256').update(signBytes).digest();
-  const signature = secp256k1.ecdsaSign(hash, privKeyBuffer);
-  txRaw.signatures = [Buffer.from(signature.signature).toString('base64')];
-
-  // Broadcast transaction
-  const broadcastOptions: any = {
-    method: 'POST',
-    url: `${credentials.baseUrl}/cosmos/tx/v1beta1/txs`,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: {
-      tx_bytes: Buffer.from(JSON.stringify(txRaw)).toString('base64'),
-      mode: 'BROADCAST_MODE_SYNC',
-    },
-    json: true,
-  };
-
-  const response = await executeFunctions.helpers.httpRequest(broadcastOptions) as any;
-  return response;
-}
-
-function getAddressFromPubKey(pubKey: Uint8Array): string {
-  // Simplified address derivation for Secret Network
-  const hash = createHash('sha256').update(pubKey).digest();
-  const ripemd = createHash('ripemd160').update(hash).digest();
-  return 'secret' + Buffer.from(ripemd).toString('hex').substring(0, 40);
-}
-
-async function executeIbcOperationsOperations(
-  this: IExecuteFunctions,
-  items: INodeExecutionData[],
-): Promise<INodeExecutionData[]> {
-  const returnData: INodeExecutionData[] = [];
-  const operation = this.getNodeParameter('operation', 0) as string;
-  const credentials = await this.getCredentials('secretnetworkApi') as any;
-
-  for (let i = 0; i < items.length; i++) {
-    try {
-      let result: any;
-
-      switch (operation) {
-        case 'ibcTransfer': {
-          const sourcePort = this.getNodeParameter('sourcePort', i) as string;
-          const sourceChannel = this.getNodeParameter('sourceChannel', i) as string;
-          const token = this.getNodeParameter('token', i) as any;
-          const sender = this.getNodeParameter('sender', i) as string;
-          const receiver = this.getNodeParameter('receiver', i) as string;
-          const timeoutHeight = this.getNodeParameter('timeoutHeight', i) as number;
-          const privateKey = this.getNodeParameter('privateKey', i) as string;
-          const gasLimit = this.getNodeParameter('gasLimit', i) as number;
-          const gasPrice = this.getNodeParameter('gasPrice', i) as string;
-
-          const txBody = {
-            messages: [
-              {
-                '@type': '/ibc.applications.transfer.v1.MsgTransfer',
-                source_port: sourcePort,
-                source_channel: sourceChannel,
-                token: token,
-                sender: sender,
-                receiver: receiver,
-                timeout_height: timeoutHeight > 0 ? { revision_number: '0', revision_height: timeoutHeight.toString() } : undefined,
-                timeout_timestamp: timeoutHeight === 0 ? (Date.now() + 600000) * 1000000 : '0',
-              },
-            ],
-            memo: '',
-            timeout_height: '0',
-            extension_options: [],
-            non_critical_extension_options: [],
-          };
-
-          const authInfo = {
-            signer_infos: [],
-            fee: {
-              amount: [{ denom: gasPrice.replace(/[0-9.]/g, ''), amount: (parseFloat(gasPrice) * gasLimit).toString() }],
-              gas_limit: gasLimit.toString(),
-              payer: '',
-              granter: '',
-            },
-          };
-
-          const options: any = {
-            method: 'POST',
-            url: `${credentials.baseUrl}/cosmos/tx/v1beta1/txs`,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: {
-              tx_bytes: Buffer.from(JSON.stringify({ body: txBody, auth_info: authInfo, signatures: [] })).toString('base64'),
-              mode: 'BROADCAST_MODE_SYNC',
-            },
-            json: true,
-          };
-
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
-
-        case 'getChannels': {
-          const paginationOffset = this.getNodeParameter('paginationOffset', i) as number;
-          const paginationLimit = this.getNodeParameter('paginationLimit', i) as number;
-
-          const options: any = {
-            method: 'GET',
-            url: `${credentials.baseUrl}/ibc/core/channel/v1/channels`,
-            qs: {
-              'pagination.offset': paginationOffset,
-              'pagination.limit': paginationLimit,
-            },
-            json: true,
-          };
-
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
-
-        case 'getChannel': {
-          const channelId = this.getNodeParameter('channelId', i) as string;
-          const portId = this.getNodeParameter('portId', i) as string;
-
-          const options: any = {
-            method: 'GET',
-            url: `${credentials.baseUrl}/ibc/core/channel/v1/channels/${channelId}/ports/${portId}`,
-            json: true,
-          };
-
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
-
-        case 'getConnections': {
-          const paginationOffset = this.getNodeParameter('paginationOffset', i) as number;
-          const paginationLimit = this.getNodeParameter('paginationLimit', i) as number;
-
-          const options: any = {
-            method: 'GET',
-            url: `${credentials.baseUrl}/ibc/core/connection/v1/connections`,
-            qs: {
-              'pagination.offset': paginationOffset,
-              'pagination.limit': paginationLimit,
-            },
-            json: true,
-          };
-
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
-
-        case 'getConnection': {
-          const connectionId = this.getNodeParameter('connectionId', i) as string;
-
-          const options: any = {
-            method: 'GET',
-            url: `${credentials.baseUrl}/ibc/core/connection/v1/connections/${connectionId}`,
-            json: true,
-          };
-
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
-
-        case 'getClientStates': {
-          const paginationOffset = this.getNodeParameter('paginationOffset', i) as number;
-          const paginationLimit = this.getNodeParameter('paginationLimit', i) as number;
-
-          const options: any = {
-            method: 'GET',
-            url: `${credentials.baseUrl}/ibc/core/client/v1/client_states`,
-            qs: {
-              'pagination.offset': paginationOffset,
-              'pagination.limit': paginationLimit,
-            },
-            json: true,
-          };
-
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
-
-        case 'getDenomTraces': {
-          const paginationOffset = this.getNodeParameter('paginationOffset', i) as number;
-          const paginationLimit = this.getNodeParameter('paginationLimit', i) as number;
-
-          const options: any = {
-            method: 'GET',
-            url: `${credentials.baseUrl}/ibc/applications/transfer/v1/denom_traces`,
-            qs: {
-              'pagination.offset': paginationOffset,
-              'pagination.limit': paginationLimit,
-            },
-            json: true,
-          };
-
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
-
-        case 'updateClient': {
-          const clientId = this.getNodeParameter('clientId', i) as string;
-          const header = this.getNodeParameter('header', i) as any;
-          const privateKey = this.getNodeParameter('privateKey', i) as string;
-          const gasLimit = this.getNodeParameter('gasLimit', i) as number;
-          const gasPrice = this.getNodeParameter('gasPrice', i) as string;
-
-          const txBody = {
-            messages: [
-              {
-                '@type': '/ibc.core.client.v1.MsgUpdateClient',
-                client_id: clientId,
-                header: header,
-                signer: '',
-              },
-            ],
-            memo: '',
-            timeout_height: '0',
-            extension_options: [],
-            non_critical_extension_options: [],
-          };
-
-          const authInfo = {
-            signer_infos: [],
-            fee: {
-              amount: [{ denom: gasPrice.replace(/[0-9.]/g, ''), amount: (parseFloat(gasPrice) * gasLimit).toString() }],
-              gas_limit: gasLimit.toString(),
-              payer: '',
-              granter: '',
-            },
-          };
-
-          const options: any = {
-            method: 'POST',
-            url: `${credentials.baseUrl}/cosmos/tx/v1beta1/txs`,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: {
-              tx_bytes: Buffer.from(JSON.stringify({ body: txBody, auth_info: authInfo, signatures: [] })).toString('base64'),
-              mode: 'BROADCAST_MODE_SYNC',
-            },
-            json: true,
-          };
-
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
-
-        default:
-          throw new NodeOperationError(this.getNode(), `Unknown operation: ${operation}`);
-      }
-
-      returnData.push({ json: result, pairedItem: { item: i } });
     } catch (error: any) {
       if (this.continueOnFail()) {
         returnData.push({ json: { error: error.message }, pairedItem: { item: i } });
@@ -2771,165 +1811,138 @@ async function executeIbcOperationsOperations(
 }
 
 async function executeTransactionsOperations(
-  this: IExecuteFunctions,
-  items: INodeExecutionData[],
+	this: IExecuteFunctions,
+	items: INodeExecutionData[],
 ): Promise<INodeExecutionData[]> {
-  const returnData: INodeExecutionData[] = [];
-  const operation = this.getNodeParameter('operation', 0) as string;
-  const credentials = await this.getCredentials('secretnetworkApi') as any;
+	const returnData: INodeExecutionData[] = [];
+	const operation = this.getNodeParameter('operation', 0) as string;
+	const credentials = await this.getCredentials('secretnetworkApi') as any;
 
-  for (let i = 0; i < items.length; i++) {
-    try {
-      let result: any;
+	for (let i = 0; i < items.length; i++) {
+		try {
+			let result: any;
 
-      switch (operation) {
-        case 'broadcastTransaction': {
-          const txBytes = this.getNodeParameter('txBytes', i) as string;
-          const mode = this.getNodeParameter('mode', i) as string;
+			switch (operation) {
+				case 'getTransaction': {
+					const hash = this.getNodeParameter('hash', i) as string;
+					const options: any = {
+						method: 'GET',
+						url: `${credentials.baseUrl}/cosmos/tx/v1beta1/txs/${hash}`,
+						headers: {
+							'Authorization': `Basic ${Buffer.from(`${credentials.username}:${credentials.password}`).toString('base64')}`,
+							'Content-Type': 'application/json'
+						},
+						json: true
+					};
+					result = await this.helpers.httpRequest(options) as any;
+					break;
+				}
 
-          const options: any = {
-            method: 'POST',
-            url: `${credentials.baseUrl}/cosmos/tx/v1beta1/txs`,
-            headers: {
-              'Content-Type': 'application/json',
-              ...(credentials.apiKey && { 'Authorization': `Bearer ${credentials.apiKey}` }),
-            },
-            body: {
-              tx_bytes: txBytes,
-              mode: mode,
-            },
-            json: true,
-          };
+				case 'getTransactions': {
+					const events = this.getNodeParameter('events', i) as string;
+					const pageKey = this.getNodeParameter('pageKey', i) as string;
+					const limit = this.getNodeParameter('limit', i) as number;
 
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
+					let queryParams = new URLSearchParams();
+					if (events) queryParams.append('events', events);
+					if (pageKey) queryParams.append('pagination.key', pageKey);
+					if (limit) queryParams.append('pagination.limit', limit.toString());
 
-        case 'getTransaction': {
-          const hash = this.getNodeParameter('hash', i) as string;
+					const options: any = {
+						method: 'GET',
+						url: `${credentials.baseUrl}/cosmos/tx/v1beta1/txs?${queryParams.toString()}`,
+						headers: {
+							'Authorization': `Basic ${Buffer.from(`${credentials.username}:${credentials.password}`).toString('base64')}`,
+							'Content-Type': 'application/json'
+						},
+						json: true
+					};
+					result = await this.helpers.httpRequest(options) as any;
+					break;
+				}
 
-          const options: any = {
-            method: 'GET',
-            url: `${credentials.baseUrl}/cosmos/tx/v1beta1/txs/${hash}`,
-            headers: {
-              ...(credentials.apiKey && { 'Authorization': `Bearer ${credentials.apiKey}` }),
-            },
-            json: true,
-          };
+				case 'broadcastTransaction': {
+					const txBytes = this.getNodeParameter('txBytes', i) as string;
+					const mode = this.getNodeParameter('mode', i) as string;
 
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
+					const body = {
+						tx_bytes: txBytes,
+						mode: mode
+					};
 
-        case 'getTransactions': {
-          const events = this.getNodeParameter('events', i) as string;
-          const orderBy = this.getNodeParameter('orderBy', i) as string;
-          const pageSize = this.getNodeParameter('pageSize', i) as number;
-          const pageKey = this.getNodeParameter('pageKey', i) as string;
+					const options: any = {
+						method: 'POST',
+						url: `${credentials.baseUrl}/cosmos/tx/v1beta1/txs`,
+						headers: {
+							'Authorization': `Basic ${Buffer.from(`${credentials.username}:${credentials.password}`).toString('base64')}`,
+							'Content-Type': 'application/json'
+						},
+						body: body,
+						json: true
+					};
+					result = await this.helpers.httpRequest(options) as any;
+					break;
+				}
 
-          const queryParams: any = {};
-          if (events) queryParams.events = events;
-          if (orderBy) queryParams['order_by'] = orderBy;
-          if (pageSize) queryParams['pagination.limit'] = pageSize.toString();
-          if (pageKey) queryParams['pagination.key'] = pageKey;
+				case 'simulateTransaction': {
+					const txBytes = this.getNodeParameter('txBytes', i) as string;
 
-          const queryString = new URLSearchParams(queryParams).toString();
-          const url = `${credentials.baseUrl}/cosmos/tx/v1beta1/txs${queryString ? '?' + queryString : ''}`;
+					const body = {
+						tx_bytes: txBytes
+					};
 
-          const options: any = {
-            method: 'GET',
-            url,
-            headers: {
-              ...(credentials.apiKey && { 'Authorization': `Bearer ${credentials.apiKey}` }),
-            },
-            json: true,
-          };
+					const options: any = {
+						method: 'POST',
+						url: `${credentials.baseUrl}/cosmos/tx/v1beta1/simulate`,
+						headers: {
+							'Authorization': `Basic ${Buffer.from(`${credentials.username}:${credentials.password}`).toString('base64')}`,
+							'Content-Type': 'application/json'
+						},
+						body: body,
+						json: true
+					};
+					result = await this.helpers.httpRequest(options) as any;
+					break;
+				}
 
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
+				case 'getTransactionsByHeight': {
+					const height = this.getNodeParameter('height', i) as number;
 
-        case 'simulateTransaction': {
-          const txData = this.getNodeParameter('txData', i) as string;
-          const txBytes = this.getNodeParameter('txBytes', i) as string;
+					const options: any = {
+						method: 'GET',
+						url: `${credentials.baseUrl}/cosmos/tx/v1beta1/txs/block/${height}`,
+						headers: {
+							'Authorization': `Basic ${Buffer.from(`${credentials.username}:${credentials.password}`).toString('base64')}`,
+							'Content-Type': 'application/json'
+						},
+						json: true
+					};
+					result = await this.helpers.httpRequest(options) as any;
+					break;
+				}
 
-          let body: any = {};
-          if (txBytes) {
-            body.tx_bytes = txBytes;
-          } else if (txData) {
-            body.tx = JSON.parse(txData);
-          }
+				default:
+					throw new NodeOperationError(this.getNode(), `Unknown operation: ${operation}`);
+			}
 
-          const options: any = {
-            method: 'POST',
-            url: `${credentials.baseUrl}/cosmos/tx/v1beta1/simulate`,
-            headers: {
-              'Content-Type': 'application/json',
-              ...(credentials.apiKey && { 'Authorization': `Bearer ${credentials.apiKey}` }),
-            },
-            body,
-            json: true,
-          };
+			returnData.push({ 
+				json: result, 
+				pairedItem: { item: i } 
+			});
 
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
+		} catch (error: any) {
+			if (this.continueOnFail()) {
+				returnData.push({
+					json: { error: error.message },
+					pairedItem: { item: i }
+				});
+			} else {
+				throw error;
+			}
+		}
+	}
 
-        case 'getBlock': {
-          const height = this.getNodeParameter('height', i) as string;
-
-          const options: any = {
-            method: 'GET',
-            url: `${credentials.baseUrl}/cosmos/base/tendermint/v1beta1/blocks/${height}`,
-            headers: {
-              ...(credentials.apiKey && { 'Authorization': `Bearer ${credentials.apiKey}` }),
-            },
-            json: true,
-          };
-
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
-
-        case 'getLatestBlock': {
-          const options: any = {
-            method: 'GET',
-            url: `${credentials.baseUrl}/cosmos/base/tendermint/v1beta1/blocks/latest`,
-            headers: {
-              ...(credentials.apiKey && { 'Authorization': `Bearer ${credentials.apiKey}` }),
-            },
-            json: true,
-          };
-
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
-
-        default:
-          throw new NodeOperationError(this.getNode(), `Unknown operation: ${operation}`);
-      }
-
-      returnData.push({
-        json: result,
-        pairedItem: { item: i },
-      });
-
-    } catch (error: any) {
-      if (this.continueOnFail()) {
-        returnData.push({
-          json: { error: error.message },
-          pairedItem: { item: i },
-        });
-      } else {
-        if (error.response?.body) {
-          throw new NodeApiError(this.getNode(), error.response.body, { httpCode: error.response.statusCode });
-        }
-        throw new NodeOperationError(this.getNode(), error.message);
-      }
-    }
-  }
-
-  return returnData;
+	return returnData;
 }
 
 async function executeAccountsOperations(
@@ -2947,131 +1960,26 @@ async function executeAccountsOperations(
       switch (operation) {
         case 'getAccount': {
           const address = this.getNodeParameter('address', i) as string;
-          
           const options: any = {
             method: 'GET',
             url: `${credentials.baseUrl}/cosmos/auth/v1beta1/accounts/${address}`,
             headers: {
               'Content-Type': 'application/json',
+              'Authorization': `Basic ${Buffer.from(`${credentials.username}:${credentials.password}`).toString('base64')}`,
             },
             json: true,
           };
-
           result = await this.helpers.httpRequest(options) as any;
           break;
         }
 
-        case 'getBalance': {
-          const address = this.getNodeParameter('address', i) as string;
-          const denom = this.getNodeParameter('denom', i, '') as string;
-          
-          let url = `${credentials.baseUrl}/cosmos/bank/v1beta1/balances/${address}`;
-          if (denom) {
-            url += `?pagination.key=&pagination.offset=0&pagination.limit=100&pagination.count_total=true&pagination.reverse=false`;
-          }
-
-          const options: any = {
-            method: 'GET',
-            url,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            json: true,
-          };
-
-          result = await this.helpers.httpRequest(options) as any;
-          
-          // Filter by denomination if specified
-          if (denom && result.balances) {
-            result.balances = result.balances.filter((balance: any) => balance.denom === denom);
-          }
-          break;
-        }
-
-        case 'getBalanceByDenom': {
+        case 'getBalances': {
           const address = this.getNodeParameter('address', i) as string;
           const denom = this.getNodeParameter('denom', i) as string;
+          let url = `${credentials.baseUrl}/cosmos/bank/v1beta1/balances/${address}`;
           
-          const options: any = {
-            method: 'GET',
-            url: `${credentials.baseUrl}/cosmos/bank/v1beta1/balances/${address}/${denom}`,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            json: true,
-          };
+          if (denom) {
+            url += `?pagination.limit=1000&denom=${denom}`;
+          }
 
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
-
-        case 'getDelegationRewards': {
-          const delegatorAddress = this.getNodeParameter('delegatorAddress', i) as string;
-          
-          const options: any = {
-            method: 'GET',
-            url: `${credentials.baseUrl}/cosmos/distribution/v1beta1/delegators/${delegatorAddress}/rewards`,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            json: true,
-          };
-
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
-
-        case 'getDelegations': {
-          const delegatorAddr = this.getNodeParameter('delegatorAddr', i) as string;
-          
-          const options: any = {
-            method: 'GET',
-            url: `${credentials.baseUrl}/cosmos/staking/v1beta1/delegations/${delegatorAddr}`,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            json: true,
-          };
-
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
-
-        case 'getUnbondingDelegations': {
-          const delegatorAddr = this.getNodeParameter('delegatorAddr', i) as string;
-          
-          const options: any = {
-            method: 'GET',
-            url: `${credentials.baseUrl}/cosmos/staking/v1beta1/delegators/${delegatorAddr}/unbonding_delegations`,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            json: true,
-          };
-
-          result = await this.helpers.httpRequest(options) as any;
-          break;
-        }
-
-        default:
-          throw new NodeOperationError(this.getNode(), `Unknown operation: ${operation}`);
-      }
-
-      returnData.push({
-        json: result,
-        pairedItem: { item: i },
-      });
-    } catch (error: any) {
-      if (this.continueOnFail()) {
-        returnData.push({
-          json: { error: error.message },
-          pairedItem: { item: i },
-        });
-      } else {
-        throw new NodeApiError(this.getNode(), error);
-      }
-    }
-  }
-
-  return returnData;
-}
+          const options
